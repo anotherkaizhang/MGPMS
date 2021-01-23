@@ -6,7 +6,7 @@ MGPMS has an advantage over traditional Machine Learning Models (Logistic Regres
 
 MGPMS can be used in numerous time series prediction applications in addition to the Risk Score prediction of performing Mechanical Ventilation in COVID-19 patients. 
 
-For more details, see full paper: 
+For more details, see full paper: *Real-time Prediction for Mechanical Ventilation in COVID-19 Patients using A Multi-task Gaussian Process Multi-objective Self-attention Network*
 
 ### Dependencies
 
