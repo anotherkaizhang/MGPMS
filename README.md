@@ -34,7 +34,9 @@ Training DeepSurv can be done in a few lines.
 First, all you need to do is prepare the datasets to have the following keys:
 
 One patient:
+{
 		'covs': covariates, length-n_covs vectors, N: patient number, n_covs: number of dimensions (dtype = float32), 
 	 	'labels': 0/1 (dtype = int8),
 	 	'times': observation time points, vector of sampling time points, not necessarily same length for each patient (dtype = float32),
     'values': observation value, sampling values at the above time points as a vector, not necessarily same length for each patient (dtype = float32),
+    }
