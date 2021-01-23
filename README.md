@@ -12,22 +12,6 @@ For more details, see full paper: *Real-time Prediction for Mechanical Ventilati
 
 PyTorch, pandas, matplotlib (for visualization) and all of their respective dependencies. 
 
-### Running the tests
-
-After installing, you can optionally run the test suite with
-
-	py.test
-
-from the command line while in the repo's main directory. 
-
-## Running Experiments
-
-Experiments are run using Docker containers built off of the [floydhub](https://github.com/floydhub/dl-docker) deep learning Docker images. DeepSurv can be run on either the CPU or the GPU with nvidia-docker. 
-
-All experiments are in the `DeepSurv/experiments/` directory. 
-
-To run an experiment, define the experiment name as an environmental variable `EXPRIMENT`and run the docker-compose file. Further details are in the `DeepSurv/experiments/` directory. 
-
 ## Input Dataset Format
 
 Training DeepSurv can be done in a few lines. 
