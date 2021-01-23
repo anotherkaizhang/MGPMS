@@ -33,7 +33,7 @@ To run an experiment, define the experiment name as an environmental variable `E
 Training DeepSurv can be done in a few lines. 
 First, all you need to do is prepare the datasets to have the following keys:
 
-One patient:
+One patient: a dictionary of the following key:value pairs
 - 'covs': covariates, length-n_covs vectors, N: patient number, n_covs: number of dimensions (dtype = float32), 
 - 'labels': 0/1 (dtype = int8),
 - 'times': observation time points, vector of sampling time points, not necessarily same length for each patient (dtype = float32),
