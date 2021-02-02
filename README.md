@@ -18,13 +18,13 @@ Training DeepSurv can be done in a few lines.
 First, all you need to do is prepare the datasets to have the following keys:
 
 One patient: a dictionary of the following key:value pairs
-- 'covs': covariates, length-n_covs vectors, N: patient number, n_covs: number of dimensions (dtype = float32), 
+- 'covs': covariates, length-n_covs vectors, N: patient number, n_covs: number of dimensions (dtype = float64), 
 - 'labels': 0/1 (dtype = int8),
-- 'times': observation time points, vector of sampling time points, not necessarily same length for each patient (dtype = float32),
-- 'values': observation value, sampling values at the above time points as a vector, not necessarily same length for each patient (dtype = float32),
-- 'ind_lvs': index of a observational feature in the feature vector (dtype = int32),
-- 'ind_times': index of a observational time point in the time vector (dtype = int32),
-- 'meds_on_grid': vector of medicine prescriptions (dtype = float32),
+- 'times': observation time points, vector of sampling time points, not necessarily same length for each patient (dtype = float64),
+- 'values': observation value, sampling values at the above time points as a vector, not necessarily same length for each patient (dtype = float64),
+- 'ind_lvs': index of a observational feature in the feature vector (dtype = int64),
+- 'ind_times': index of a observational time point in the time vector (dtype = int64),
+- 'meds_on_grid': vector of medicine prescriptions (dtype = float64),
 - 'num_obs_values': vector of observational time vector (dtype = int32),
-- 'rnn_grid_times': vector of time points at which the values need to be imputed (dtype = float32),
+- 'rnn_grid_times': vector of time points at which the values need to be imputed (dtype = float64),
 - 'num_rnn_grid_times': length of rnn_grid_times (dtype = int32),
