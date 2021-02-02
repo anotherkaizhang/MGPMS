@@ -5,12 +5,12 @@ from tqdm import tqdm
 import pickle
 import time
 import globals
-
+import matplotlib.pyplot as plt
+    
 from util import pad_rawdata,SE_kernel,OU_kernel,gather_nd,log_sum_exp,CG,Lanczos,block_CG,block_Lanczos
 from model import TransformerModel
 
 def get_probs_and_accuracy(preds, O):
-
     all_probs = torch.exp(
         preds[:, 1] - log_sum_exp(preds, dim=1))
     N = preds.shape[0] / n_mc_smps
@@ -155,6 +155,77 @@ def evaluate(eval_model):
 
     return total_loss, output_all, target_all
 
+def plot_trend(output_all, target_all, sequence_len):
+    negatives = [ind for ind in range(len(target_all)) if target_all[ind] == 0]
+    positives = [ind for ind in range(len(target_all)) if target_all[ind] == 1]
+
+    n_row = 20
+
+    fig, ax = plt.subplots(figsize=(8, 5))
+    for i in range(n_row):
+        ax.plot(output_all[negatives[i]][:sequence_len], color='olive', marker="o", linestyle="dotted")
+        if i == n_row - 1:
+            ax.plot(output_all[negatives[i]][:sequence_len], color='olive', marker="o", linestyle="dotted",
+                    label="Patients Not Need MV")
+
+    for i in range(n_row):
+        ax.plot(output_all[positives[i]][:sequence_len], color='teal', marker="o", linestyle="dotted")
+        if i == n_row - 1:
+            ax.plot(output_all[negatives[i]][:sequence_len], color='teal', marker="o", linestyle="dotted", label="Patients Need MV")
+
+    # ax.set_xticks(np.arange(0, 19, 4), tuple([str(4*i)+'h' for i in range(0, 19, 4)]))
+    ax.set_xticks(np.arange(0, sequence_len))
+    ax.set_xticklabels([str(4 * i) + 'h' for i in range(0, sequence_len)])
+
+    ax.set_xlabel("Hours after admission")
+    ax.set_ylabel("Risk Score")
+    ax.set_title("Patients' Risk Score Trend of Intubation (3 days after admission)")
+    ax.legend()
+    plt.show()
+    # fig.savefig('Robustness'+'.tiff', dpi=1200, format="tiff", pil_kwargs={"compression": "tiff_lzw"})
+
+def plot_auc_aupr(output_all, target_all, sequence_len):
+    from sklearn import metrics
+    from sklearn.metrics import precision_recall_curve
+    from sklearn.metrics import auc
+
+    ### AUC
+    x = range(sequence_len)
+    aucs = []
+    for i in range(sequence_len):
+        fpr, tpr, thresholds = metrics.roc_curve(np.array(target_all).astype(int), [output_all[j][i] for j in range(
+            len(target_all))])
+        roc_auc = metrics.auc(fpr, tpr)
+        #     print("Area under the ROC curve : %f" % roc_auc)
+        aucs.append(roc_auc)
+
+    print(np.max(aucs))
+
+    fig, ax = plt.subplots()
+    ax.plot(x, aucs)
+    ax.set_xticks(np.arange(0, sequence_len))
+    ax.set_xticklabels([str(4 * i) + 'h' for i in range(0, sequence_len)])
+    ax.set_xlabel("Hours after admission")
+    ax.set_ylabel("AUC")
+    ax.set_title("AUC Intubation Precition - 7 Days After Admission. Maximum")
+
+
+    ### AUPR
+    prcs = []
+    for i in range(sequence_len):
+        lr_precision, lr_recall, _ = precision_recall_curve(np.array(target_all).astype(int), [output_all[j][i] for j in
+                                                                                               range(len(
+                                                                                                   target_all))])  # , np.array(target_all).astype(int))
+        prcs.append(auc(lr_recall, lr_precision))
+    print(np.max(prcs))
+    fig, ax = plt.subplots()
+    ax.plot(x, prcs)
+    ax.set_xticks(np.arange(0, sequence_len, 4))
+    ax.set_xticklabels([str(4 * i) + 'h' for i in range(0, sequence_len, 4)])
+    ax.set_xlabel("Hours after admission")
+    ax.set_ylabel("AUPR")
+    ax.set_title("AUPR Intubation Precition - 7 Days After Admission")
+
 
 if __name__ == '__main__':
     ### Device
@@ -162,7 +233,7 @@ if __name__ == '__main__':
     print("GPU count: ", torch.cuda.device_count())
 
     if torch.cuda.is_available():
-        device = torch.device(1)  # custermize your own GPU device
+        device = torch.device(10)  # custermize your own GPU device
     else:
         device = torch.device('cpu')
 
@@ -171,7 +242,7 @@ if __name__ == '__main__':
     torch.set_default_dtype(torch.float32)
 
     ### data
-    f = open("data/input_for_MGPMS-simulation_M25_cov22_med10", 'rb')
+    f = open("data/input_for_GPRNN-simulation_M25_cov22_med10.pickle", 'rb')
 
     input_for_GPRNN = pickle.load(f, encoding="latin1")
     f.close()
@@ -196,7 +267,7 @@ if __name__ == '__main__':
     rs = np.random.RandomState(seed)
 
     train_test_perm = rs.permutation(N_tot)
-    val_frac = 0.1
+    val_frac = 0.1  # fraction of full data to set aside for testing
 
     te_ind = train_test_perm[: int(val_frac * N_tot)]
     tr_ind = train_test_perm[int(val_frac * N_tot):]
@@ -219,6 +290,7 @@ if __name__ == '__main__':
     if len(starts_te) > len(ends_te):
         starts_te = starts_te[:-1]
 
+    # Break everything out into train/test
     for varname in ['covs', 'labels', 'times', 'values', 'ind_lvs', 'ind_times', 'meds_on_grid', \
                     'num_obs_times', 'num_obs_values', 'rnn_grid_times', 'num_rnn_grid_times']:
         print(varname + '_tr = [' + varname + '[i] for i in tr_ind]')
@@ -232,11 +304,11 @@ if __name__ == '__main__':
 
     ### Parameter setting
     M = 25
-    n_covs = 33
-    n_meds = 21
+    n_covs = 22
+    n_meds = 10
 
     ninput = M + n_meds
-    emsize = 512
+    emsize = 512  # embedding dimension
     nhid = 2048  # the dimension of the feedforward network model in nn.TransformerEncoder
     nlayers = 6  # the number of nn.TransformerEncoderLayer in nn.TransformerEncoder
     nhead = 8  # the number of heads in the multiheadattention models
@@ -260,13 +332,14 @@ if __name__ == '__main__':
 
     ### Training parameters
     criterion = nn.BCEWithLogitsLoss(reduction='sum')
-    lr = 0.03  # learning rate
+    lr = 0.03
     optimizer = torch.optim.SGD(model.parameters(), lr=lr)
     scheduler = torch.optim.lr_scheduler.StepLR(optimizer, 1.0, gamma=0.95)
 
+
     ### Training
     best_val_loss = float("inf")
-    epochs = 100  # The number of epochs
+    epochs = 100
     best_model = None
 
     for epoch in range(1, epochs + 1):
@@ -291,4 +364,7 @@ if __name__ == '__main__':
     print('| end of epoch {:3d} | time: {:5.2f}s | valid loss {:5.2f} '
           .format(epoch, (time.time() - epoch_start_time),
                   val_loss))
-
+    
+    ### Plot trends
+    # plot_trend(output_all, target_all, sequence_len)
+    # plot_auc_aupr(output_all, target_all, sequence_len)
