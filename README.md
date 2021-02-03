@@ -1,6 +1,6 @@
 # MGPMS
 
-MGPMS implements a deep learning framework using Python and PyTorch. 
+MGPMS implements a deep learning framework using Python and PyTorch: [Real-time Prediction for Mechanical Ventilation in COVID-19 Patients using A Multi-task Gaussian Process Multi-objective Self-attention Network](https://arxiv.org/abs/2102.01147).
 
 MGPMS has an advantage over traditional Machine Learning Models (Logistic Regression, Cox Regression, etc.) in that it can provide in-time robust risk score trajectory.
 
@@ -8,12 +8,12 @@ MGPMS can be used in numerous time series prediction applications in addition to
 
 For more details, see full paper: *Real-time Prediction for Mechanical Ventilation in COVID-19 Patients using A Multi-task Gaussian Process Multi-objective Self-attention Network*
 
-### Dependencies
-
-PyTorch, pandas, matplotlib (for visualization) and all of their respective dependencies. 
+### General
+* Python >= 3.5
+* [PyTorch](https://pytorch.org/get-started/locally/) (tested with PyTorch 1.7.1)
+* Optional: CUDA (tested with CUDA 11.0) 
 
 ## Input Dataset Format
-
 Training DeepSurv can be done in a few lines. 
 First, all you need to do is prepare the datasets to have the following keys:
 
@@ -28,3 +28,11 @@ A dictionary of the following keys: values, each value is a list of N patients' 
 - 'num_obs_values': list of N integers (dtype = int32),
 - 'rnn_grid_times': list of N vectors, vector of time points at which the values need to be imputed (dtype = float64),
 - 'num_rnn_grid_times': length of rnn_grid_times (dtype = int32),
+Check out the Jupyter Notebook `fastPC Demo` to see a demonstration of the functionality. 
+
+
+The folder 'data' contains one small dataset for demonstration purposes.
+
+### Running
+
+Run `mgp-ms.py` to run MGP-MS, you can custermize parameters and your own dataset(s).
