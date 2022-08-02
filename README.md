@@ -33,7 +33,9 @@ MGPMS can be used in numerous time series prediction applications when missing v
 
 
 ## Input Dataset Format
-The input data format is not a usual regular matrix format, as takes input data with missing values, such format usually takes too much space especially when we have a lot of missing observations (like in our data).
+The input data format is not a usual regular matrix format, as takes input data with missing values, such format usually takes too much space especially when we have a lot of missing observations (as in our data).
+
+![image](https://user-images.githubusercontent.com/29695346/182447695-7f1a27e8-629f-4e42-b897-e6348abf40d8.png)
 
 We using observed position indicators to represent the sparse matrix, in the following format. Suppose a patient has a matrix of (row: time stamps, col: featurs) with many missingness. We create the following variables:
 
@@ -42,13 +44,12 @@ We using observed position indicators to represent the sparse matrix, in the fol
 - 'values': list, observational observational values at the 'times' stamps (dtype = float64),
 - 'ind_lvs': list of observational value indices in the column (dtype = int64),
 - 'ind_times': list of observational time indices (dtype = int64),
-- 'meds_on_grid': list of drug prescription history time indices (dtype = float64),
 - 'num_obs_values': integer (dtype = int32),
 - 'rnn_grid_times': list, inferred time points (at which the values need to be imputed) (dtype = float64),
 - 'num_rnn_grid_times': how many inferred time points, i.e. length of 'rnn_grid_times' (dtype = int32),
 
-Check out the Jupyter Notebook `fastPC Demo` to see a demonstration of the functionality. 
-
+Optional: 
+- 'meds_on_grid': list of drug prescription history time indices (dtype = float64),
 - 'covs': list of covariates (length-n_covs vector), n_covs: number of demographic dimensions (dtype = float64), 
 
 The folder 'data' contains one small dataset for demonstration purposes.
