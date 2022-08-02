@@ -33,22 +33,23 @@ MGPMS can be used in numerous time series prediction applications when missing v
 
 
 ## Input Dataset Format
-Training DeepSurv can be done in a few lines. 
-First, all you need to do is prepare the datasets to have the following keys:
+The input data format is not a usual regular matrix format, as takes input data with missing values, such format usually takes too much space especially when we have a lot of missing observations (like in our data).
 
-A dictionary of the following keys: values, each value is a list of N patients' data
-- 'covs': list of N covariates (length-n_covs vector), n_covs: number of demographic dimensions (dtype = float64), 
-- 'labels': list of N binaries (0/1) (dtype = int8),
-- 'times': list of N observational time points (vector of various lengths), usually vector length is not the same for all patients (dtype = float64),
-- 'values': list of N observational observational values (sampling values at the above time points as a vector, usually vector length is not the same for all patients (dtype = float64),
-- 'ind_lvs': list of N observational value indices (length-num_obs_values vector), index of a observational feature in the 'values' vector (dtype = int64),
-- 'ind_times': list of N observational time indices (length-num_obs_values vector), index of a observational time point in the 'times' vector (dtype = int64),
-- 'meds_on_grid': list of N drug prescription history time indices (matrix of rnn_grid_times-by-n_meds), (dtype = float64),
-- 'num_obs_values': list of N integers (dtype = int32),
-- 'rnn_grid_times': list of N vectors, vector of time points at which the values need to be imputed (dtype = float64),
-- 'num_rnn_grid_times': length of rnn_grid_times (dtype = int32),
+We using observed position indicators to represent the sparse matrix, in the following format. Suppose a patient has a matrix of (row: time stamps, col: featurs) with many missingness. We create the following variables:
+
+- 'labels': integer (binaries) 0/1 (dtype = int8),
+- 'times': list, real **unique** observational time points (dtype = float64),
+- 'values': list, observational observational values at the 'times' stamps (dtype = float64),
+- 'ind_lvs': list of observational value indices in the column (dtype = int64),
+- 'ind_times': list of observational time indices (dtype = int64),
+- 'meds_on_grid': list of drug prescription history time indices (dtype = float64),
+- 'num_obs_values': integer (dtype = int32),
+- 'rnn_grid_times': list, inferred time points (at which the values need to be imputed) (dtype = float64),
+- 'num_rnn_grid_times': how many inferred time points, i.e. length of 'rnn_grid_times' (dtype = int32),
+
 Check out the Jupyter Notebook `fastPC Demo` to see a demonstration of the functionality. 
 
+- 'covs': list of covariates (length-n_covs vector), n_covs: number of demographic dimensions (dtype = float64), 
 
 The folder 'data' contains one small dataset for demonstration purposes.
 
