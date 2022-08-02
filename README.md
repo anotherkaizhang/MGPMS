@@ -10,8 +10,9 @@
 ![](https://img.shields.io/badge/tqdm-%3E%3D4.60-lightgrey)
 
 
-
 MGPMS implements a deep learning framwork that incorporates Multivariant Gaussian Process to the Transformer to do classification (and easily be tailored to do regression task) when the input time series data has missing values. 
+
+![Figure](https://user-images.githubusercontent.com/29695346/182427448-14ca01e7-2a75-4a76-8d47-118e472654da.jpg)
 
 The idea is to use Multivariant Gaussian Process for missing value imputation. The key note is that the Gaussian Process parameters (mean and covariance matrix) are integrated as parameters of the prediction neural network, therefore, missing data imputation and classification are performed together and jointly trained via back-propagation, which siginificantly boost prediction performance.
 
