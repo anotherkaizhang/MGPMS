@@ -38,7 +38,7 @@ The input data format is not a usual regular matrix format, as takes input data 
 We using observed position indicators to represent the sparse matrix, in the following format. Suppose a patient has a matrix of (row: time stamps, col: featurs) with many missingness. We create the following variables:
 
 - 'labels': integer (binaries) 0/1 (dtype = int8),
-- 'times': list, real **unique** observational time points (dtype = float64),
+- 'times': list, real observational time points (dtype = float64),
 - 'values': list, observational observational values at the 'times' stamps (dtype = float64),
 - 'ind_lvs': list of observational value indices in the column (dtype = int64),
 - 'ind_times': list of observational time indices (dtype = int64),
