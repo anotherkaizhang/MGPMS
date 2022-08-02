@@ -35,7 +35,7 @@ MGPMS can be used in numerous time series prediction applications when missing v
 ## Input Dataset Format
 The input data format is not a usual regular matrix format, as takes input data with missing values, such format usually takes too much space especially when we have a lot of missing observations (as in our data).
 
-![image](https://user-images.githubusercontent.com/29695346/182447695-7f1a27e8-629f-4e42-b897-e6348abf40d8.png)
+![image](https://user-images.githubusercontent.com/29695346/182448267-210fd57a-a658-4bbc-9d3c-e49ade5f5a02.png)
 
 We using observed position indicators to represent the sparse matrix, in the following format. Suppose a patient has a matrix of (row: time stamps, col: featurs) with many missingness. We create the following variables:
 
