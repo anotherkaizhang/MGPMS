@@ -242,7 +242,7 @@ if __name__ == '__main__':
     torch.set_default_dtype(torch.float32)
 
     ### data
-    f = open("data/input_for_GPRNN-simulation_M25_cov22_med10.pickle", 'rb')
+    f = open("data/input_for_MGPMS-simulation_M25_cov22_med10.pickle", 'rb')
 
     input_for_GPRNN = pickle.load(f, encoding="latin1")
     f.close()
