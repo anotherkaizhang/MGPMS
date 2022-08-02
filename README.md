@@ -59,4 +59,4 @@ The folder 'data' contains one small dataset for demonstration purposes.
 - Run `simulation.py' to generate data, or simply use the data in the 'data' folder
 - Run 'MGP-MS.py', you can custermize hypter parameters and your own dataset(s).
 
-* Please do feel free to contact me (kai.zhang73@gmail.com) if you feel any part is unclear and I'll be happy to help correct your input format 
+* Please do feel free to contact me (kai.zhang73@gmail.com) if you feel any part is unclear and I'll be happy to help correct your input data format !
