@@ -1,6 +1,7 @@
 # MGPMS
 [![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/Naereen/StrapDown.js/blob/master/LICENSE)
 [![Python 3.6](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/downloads/release/python-360/)
+[![Python 3.6]https://img.shields.io/badge/python-%3E%3D3.4.5-yellow
 
 
 matplotlib==3.3.3
@@ -10,6 +11,7 @@ scikit_learn==1.1.1
 scipy==1.6.3
 torch==1.10.0
 tqdm==4.60.0
+python==3.7
 
 
 
