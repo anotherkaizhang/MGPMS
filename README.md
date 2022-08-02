@@ -1,34 +1,36 @@
 # MGPMS
-[![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/Naereen/StrapDown.js/blob/master/LICENSE)
-[![Python 3.6](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/downloads/release/python-360/)
+![](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)
+![](https://img.shields.io/badge/python-%3E%3D3.7-green)
+![](https://img.shields.io/badge/torch-%3E%3D1.10-blue)
+![](https://img.shields.io/badge/numpy-%3E%3D1.19-yellow)
+![](https://img.shields.io/badge/matplotlib-%3E%3D3.3-brightgreen)
+![](https://img.shields.io/badge/pandas-%3E%3D1.2-green)
+![](https://img.shields.io/badge/scikit__learn-%3E%3D1.1-yellowgreen)
+![](https://img.shields.io/badge/scipy-%3E%3D1.6-orange)
+![](https://img.shields.io/badge/tqdm-%3E%3D4.60-lightgrey)
 
-[https://img.shields.io/badge/python-%3E%3D3.4.5-yellow]
-
-
-matplotlib==3.3.3
-numpy==1.19.2
-pandas==1.2.4
-scikit_learn==1.1.1
-scipy==1.6.3
-torch==1.10.0
-tqdm==4.60.0
-python==3.7
+![](images/Figure 1-1.jpg?raw=true)
 
 
+MGPMS implements a deep learning framwork that incorporates Multivariant Gaussian Process to the Transformer to do classification (and easily be tailored to do regression task) when the input time series data has missing values. 
 
+The idea is to use Multivariant Gaussian Process for missing value imputation. The key note is that the Gaussian Process parameters (mean and covariance matrix) are integrated as parameters of the prediction neural network, therefore, missing data imputation and classification are performed together and jointly trained via back-propagation, which siginificantly boost prediction performance.
 
-MGPMS implements a deep learning framework using Python and PyTorch: [Real-time Prediction for Mechanical Ventilation in COVID-19 Patients using A Multi-task Gaussian Process Multi-objective Self-attention Network](https://arxiv.org/abs/2102.01147).
+We applied it on a disease prediction task and achieved state-of-the-art performance on the same task compared to various deep learning and conventional machine learning models. [Real-time Prediction for Mechanical Ventilation in COVID-19 Patients using A Multi-task Gaussian Process Multi-objective Self-attention Network](https://pubmed.ncbi.nlm.nih.gov/35489596/).
 
-MGPMS has an advantage over traditional Machine Learning Models (Logistic Regression, Cox Regression, etc.) in that it can provide in-time robust risk score trajectory.
+In this paper, MGPMS was applied not only to classify (0/1) a future event happens or not, but also generate patient's entire risk score trajectory from the prediction time to the time event happens. We show the risk trajectory has siginificant robustness and consistency compared to traditional Machine Learning Models (Logistic Regression, Cox Regression, etc.) in that it uses target replication to further boost performance.
 
-MGPMS can be used in numerous time series prediction applications in addition to the Risk Score prediction of performing Mechanical Ventilation in COVID-19 patients. 
+MGPMS can be used in numerous time series prediction applications when missing values exists, besides the COVID-19 patients Risk Score prediction in this paper.
 
-For more details, see full paper: *Real-time Prediction for Mechanical Ventilation in COVID-19 Patients using A Multi-task Gaussian Process Multi-objective Self-attention Network*
+### Requirements
+* matplotlib>=3.3.3
+* numpy>=1.19.2
+* pandas>=1.2.4
+* scikit_learn>=1.1.1
+* scipy>=1.6.3
+* torch>=1.10.0
+* tqdm>=4.60.0
 
-### General
-* Python >= 3.5
-* [PyTorch](https://pytorch.org/get-started/locally/) (tested with PyTorch 1.7.1)
-* Optional: CUDA (tested with CUDA 11.0) 
 
 ## Input Dataset Format
 Training DeepSurv can be done in a few lines. 
