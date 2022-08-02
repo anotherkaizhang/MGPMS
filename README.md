@@ -9,7 +9,6 @@
 ![](https://img.shields.io/badge/scipy-%3E%3D1.6-orange)
 ![](https://img.shields.io/badge/tqdm-%3E%3D4.60-lightgrey)
 
-![alt text]([Figures/Figure.jpg])
 
 
 MGPMS implements a deep learning framwork that incorporates Multivariant Gaussian Process to the Transformer to do classification (and easily be tailored to do regression task) when the input time series data has missing values. 
