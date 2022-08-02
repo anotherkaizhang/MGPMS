@@ -33,19 +33,14 @@ def sim_multitask_GP(times, length, noise_vars, K_f, trainfrac):
 
     y = np.dot(L_K, np.random.normal(0, 1, n))  # a vector of n numbers, Draw normal
 
-    """
-        M = 10 个变量
-        N = 40 个时间点
-        ind_kf 就是： 【40个0， 40个1， 。。。。， 40个9】
-        ind_kx 就是：【0-39， 0-39， 。。。， 0-39】 （共10个）
-    """
+
     # get indices of which time series and which time point, for each element in y
     ind_kf = np.tile(np.arange(M), (N, 1)).flatten('F')  # vec by column
     ind_kx = np.tile(np.arange(N), (M, 1)).flatten()
 
     # randomly dropout some fraction of fully observed time series
-    perm = np.random.permutation(n)  # 一共 n=M*N 个数据， 打乱
-    n_train = int(trainfrac * n)  # 80%的数据扔掉
+    perm = np.random.permutation(n)  # n=M*N 
+    n_train = int(trainfrac * n)  # 80% discard
     train_inds = perm[:n_train]
 
     y_ = y[train_inds]
@@ -134,7 +129,7 @@ def sim_dataset(num_encs, stay_length, M, n_covs, n_meds, pos_class_rate=0.5, tr
         if l == 0:  # sim some different baseline covs; meds for 2 classes
             baseline_covs[i, : int(n_covs / 2)] = rs.normal(0.1, 0.2, int(n_covs / 2))
             baseline_covs[i, int(n_covs / 2):] = rs.binomial(1, 0.2, int(n_covs / 2))
-            meds = rs.binomial(1, .02, (num_rnn_grid_times[i], n_meds))  # This is a 0/1 matrix, 行：时间点， 列：5个medicine
+            meds = rs.binomial(1, .02, (num_rnn_grid_times[i], n_meds))  # This is a 0/1 matrix, row: time, col: 5 medicine
         else:
             baseline_covs[i, :int(n_covs / 2)] = rs.normal(0.8, 0.8, int(n_covs / 2))
             baseline_covs[i, int(n_covs / 2):] = rs.binomial(1, 0.6, int(n_covs / 2))
