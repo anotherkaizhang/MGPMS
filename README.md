@@ -16,7 +16,7 @@ MGPMS implements a deep learning framwork that incorporates Multivariant Gaussia
 
 The idea is to use Multivariant Gaussian Process for missing value imputation. The key note is that the Gaussian Process parameters (mean and covariance matrix) are integrated as parameters of the prediction neural network, therefore, missing data imputation and classification are performed together and jointly trained via back-propagation, which siginificantly boost prediction performance.
 
-We applied it on a disease prediction task and achieved state-of-the-art performance on the same task compared to various deep learning and conventional machine learning models. [Real-time Prediction for Mechanical Ventilation in COVID-19 Patients using A Multi-task Gaussian Process Multi-objective Self-attention Network](https://pubmed.ncbi.nlm.nih.gov/35489596/).
+We applied it on a disease prediction task and achieved state-of-the-art performance on the same task compared to various deep learning and conventional machine learning models. [A multi-task Gaussian process self-attention neural network for real-time prediction of the need for mechanical ventilators in COVID-19 patients](https://pubmed.ncbi.nlm.nih.gov/35489596/).
 
 In this paper, MGPMS was applied not only to classify (0/1) a future event happens or not, but also generate patient's entire risk score trajectory from the prediction time to the time event happens. We show the risk trajectory has siginificant robustness and consistency compared to traditional Machine Learning Models (Logistic Regression, Cox Regression, etc.) in that it uses target replication to further boost performance.
 
