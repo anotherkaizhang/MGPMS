@@ -60,4 +60,4 @@ The folder 'data' contains one small dataset for demonstration purposes.
 - Run 'MGP-MS.py', you can custermize hypter parameters and your own dataset(s).
 
 ### Contact
-kai.zhang.1@uth.tmc.edu
+kai.zhang.1@uth.tmc.edu (https://sbmi.uth.edu/faculty-and-staff/kai-zhang.htm)
